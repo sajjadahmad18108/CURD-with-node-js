@@ -35,8 +35,35 @@ const server = createServer((req, res)=>{
             res.writeHead(200, { 'Content-Type': 'application/json' });
             res.end(JSON.stringify({message: "Post request user added successfull" , data:newItems}))
         })
-     
     } 
+
+    // Put request 
+    else if (parseurl.pathname.startsWith('/update/user') && req.method === 'PUT') {
+       
+        console.log('Requested URL:', parseurl.pathname); 
+        console.log('Request method:', req.method);
+    
+        let body = '';
+        const itemId = parseurl.pathname.split('/').pop();  
+        
+        req.on('data', chunk => {
+            body += chunk.toString();
+        });
+        
+        req.on('end', () => {
+            try {
+                const updatedItem = JSON.parse(body);  
+                res.writeHead(200, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ message: `PUT request - Updating item ${itemId}`, data: updatedItem }));
+            } catch (err) {
+                res.statusCode = 400;  
+                res.end(JSON.stringify({ message: 'Invalid JSON format' }));
+            }
+        });
+    }
+    
+
+
     else {
         res.writeHead(404, { 'Content-Type': 'text/plain' });
         res.end("Page not found");
