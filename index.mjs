@@ -61,9 +61,13 @@ const server = createServer((req, res)=>{
             }
         });
     }
+    // delete request
+    else if (req.method === 'DELETE' && parseurl.pathname.startsWith('/delete/user/')) {
+        const itemId = parseurl.pathname.split('/').pop();
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ message: `DELETE request  Deleting item ${itemId}` }));
     
-
-
+    }
     else {
         res.writeHead(404, { 'Content-Type': 'text/plain' });
         res.end("Page not found");
