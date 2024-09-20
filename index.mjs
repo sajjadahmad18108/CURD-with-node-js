@@ -10,6 +10,10 @@ const server = createServer((req, res)=>{
         res.writeHead(200, { 'Content-Type': 'text/html' }); 
         res.end('<h1>this is the home page </h1>');
     }
+    else if (url === '/About') {
+        res.writeHead(200, { 'Content-Type': 'text/plain' });  
+        res.end("This is the about page");  
+    }
 })
 
 server.listen(PORT, () => {
